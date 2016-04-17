@@ -68,13 +68,23 @@ int main(int argc, char const *argv[])
 		printf("Hamming Limit for program exceeded. Modify in the program for the same.\n");
 	}
 	else {
-		//Hamming Code Generation
-		printf("Hamming Code Generation\n");
+		//Hamming Code Generation for Little Endian Form
+		printf("Hamming Code Generation Little Endianess\n");
+		displayBits((char*) argv[argc-2]);
+		hammingCodeGeneration((char*) argv[argc-2],eLittleEndian);
+
+		printf("Hamming Code Verification Little Endianess\n");
+		//Hamming Code Verification for Little Endian Form
+		displayBits((char*) argv[argc-1]);
+		hammingCodeVerification((char*)argv[argc-1],eLittleEndian);
+
+		//Hamming Code Generation for Big Endian Form
+		printf("Hamming Code Generation Big Endianess\n");
 		displayBits((char*) argv[argc-2]);
 		hammingCodeGeneration((char*) argv[argc-2],eBigEndian);
 
-		printf("Hamming Code Verification\n");
-		//Hamming Code Verification
+		printf("Hamming Code Verification Big Endianess\n");
+		//Hamming Code Verification for Big Endian Form
 		displayBits((char*) argv[argc-1]);
 		hammingCodeVerification((char*)argv[argc-1],eBigEndian);
 
