@@ -151,15 +151,84 @@ int hammingCodeGeneration(char *input_string, Endianess endian_type) {
 	return 0;
 }
 
+int hammingStringCopyWithParityReset(char *input_hamming_string, char *new_hamming_string) {
+
+	int len,i;
+	len = messageLength(input_hamming_string,eEXECUTE);
+	for (i = 0; i < len; ++i)
+	{
+		if((i+1)==closestPowerOfTwo((i+1),eEXECUTE)) {
+			*(new_hamming_string+i) = '_';
+		}
+		else {
+			*(new_hamming_string+i) = *(input_hamming_string+i);	
+		}
+
+	}
+	*(new_hamming_string+i) = CHARACTER_TERMINATION;
+	return 0;
+}
+
+int parityVerification(char *received_message, char *calculated_parity_message, Endianess endian_type) {
+
+	int len,i,error_bit=0;
+	len = messageLength(received_message,eEXECUTE);
+	if (endian_type == eLittleEndian) {
+		for (i = 0; i < len; ++i)
+		{
+			if((i+1)==closestPowerOfTwo((i+1),eEXECUTE)) {
+				if(*(received_message+i) != *(calculated_parity_message+i)) {
+					error_bit |= (i+1); 
+				}
+			}
+		}
+	}
+	else {
+
+	}
+	return error_bit;	
+}
+
+int hammingCodeVerification(char *input_hamming_string, Endianess endian_type) {
+
+	char verify_hamming_string[MAX_HAMMING_STRING_SIZE];
+	int error_bit;
+	if(endian_type == eLittleEndian) {
+
+		hammingStringCopyWithParityReset(input_hamming_string, verify_hamming_string);
+		displayBits(verify_hamming_string);
+		parityCalculationInHammingString(verify_hamming_string, eLittleEndian);
+		error_bit = parityVerification(input_hamming_string, verify_hamming_string, eLittleEndian);
+		if(error_bit != 0) {
+			printf("Single Bit Error in Bit Position : %d\n", error_bit);
+		}
+		else {
+			printf("No Single Bit errors\n");
+		}
+	}
+	else {
+
+	}
+	return 0;
+}
+
 int main(int argc, char const *argv[])
 {
 	
-	if(messageLength((char*)argv[argc-1],eEXECUTE)>=32) {
+	if((messageLength((char*)argv[argc-2],eEXECUTE)>=32)&&(messageLength((char*)argv[argc-1],eEXECUTE)>=32)) {
 		printf("Hamming Limit for program exceeded. Modify in the program for the same.\n");
 	}
 	else {
+		//Hamming Code Generation
+		printf("Hamming Code Generation\n");
+		displayBits((char*) argv[argc-2]);
+		hammingCodeGeneration((char*) argv[argc-2],eLittleEndian);
+
+		printf("Hamming Code Verification\n");
+		//Hamming Code Verification
 		displayBits((char*) argv[argc-1]);
-		hammingCodeGeneration((char*) argv[argc-1],eLittleEndian);
+		hammingCodeVerification((char*)argv[argc-1],eLittleEndian);
+
 	}
 	return 0;
 }
