@@ -1,7 +1,7 @@
 /** 
 	\file		:	main.c
 	\author		:	Sreeram Sadasivam
-	\brief		:	Hamming Code test.
+	\brief		:	Hamming Code test application program.
 	\copyright	:	Copyrights reserved @2016
 */
 

@@ -7,19 +7,10 @@
 
 #include "constants.h"
 #include "common.h"
-
+#include "hamming_code_core.h"
 
 #ifndef HAMMING_CODE_H_
 #define HAMMING_CODE_H_
-
-/** CORE FUNCTIONS */
-int generateInitialHammingStringCoreFunction(char *input_string, char *hamming_string, MODE mode);
-
-int parityCalculationInHammingStringCoreFunction(char *hamming_string, MODE mode);
-
-int hammingStringCopyWithParityResetCoreFunction(char *input_hamming_string, char *new_hamming_string, MODE mode);
-
-int parityVerificationCoreFunction(char *received_message, char *calculated_parity_message, MODE mode);
 
 /** Interface Methods */
 int generateInitialHammingString(char *input_string, char *hamming_string, Endianess endian_type, MODE mode);
